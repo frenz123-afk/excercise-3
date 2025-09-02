@@ -11,26 +11,30 @@ let wrongGuesses = 0;
 let guessedCorrectly = false;
 
 async function runGame() {
+  console.log("🎮 Welcome to Hangman!");
+  console.log(`You have ${MAX_WRONG} attempts to guess the word.`);
+
   while (wrongGuesses < MAX_WRONG && !guessedCorrectly) {
+    
     if (wrongGuesses === MAX_WRONG - 1) {
-      console.log(`Hint: ${wordObj.hint}`);
+      console.log(`💡 Hint: ${wordObj.hint}`);
     }
 
-    const guess = await promp(wordObj.question);
+    const guess = await promp(wordObj.question + " ");
 
     if (guess.toLowerCase() === word) {
-      console.log("Congratulations! You've guessed the word correctly.");
+      console.log(`🎉 Congratulations! You guessed the word correctly: ${word}`);
       guessedCorrectly = true;
       return;
     } else {
       wrongGuesses++;
-      console.log(HANGMAN.slice(0, wrongGuesses));
+      console.log(`❌ Wrong guess! Progress: ${HANGMAN.slice(0, wrongGuesses)}`);
+      console.log(`Attempts left: ${MAX_WRONG - wrongGuesses}`);
     }
   }
 
   if (!guessedCorrectly) {
-    console.log(HANGMAN);
-    console.log(`Game over! The word was: ${word}`);
+    console.log(`💀 Game over! The word was: ${word}`);
   }
 }
 
